@@ -1,0 +1,205 @@
+/* ═══════════════════════════════════════════════════
+   TrustMyCourse — Global Stylesheet
+   Theme: Dark Green & White (Safety / Verification)
+   ═══════════════════════════════════════════════════ */
+
+/* ── Google Font ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+
+/* ── CSS Variables ── */
+:root {
+    --bg:           #ffffff;
+    --card-bg:      #f4faf4;
+    --sidebar-bg:   #e8f5e9;
+    --accent:       #4caf50;
+    --accent-dark:  #388e3c;
+    --accent-light: #81c784;
+    --text:         #1a2e1a;
+    --text-muted:   #4a7a4d;
+    --border:       #c8e6c9;
+    --danger:       #ef5350;
+    --warning:      #ff9800;
+    --yellow:       #f9a825;
+    --font:         'Inter', sans-serif;
+}
+
+/* ── Base App ── */
+html, body, [class*="css"] {
+    font-family: var(--font) !important;
+    background-color: #ffffff !important;
+    color: var(--text) !important;
+}
+
+.stApp {
+    background-color: #ffffff !important;
+}   
+
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {
+    background-color: var(--sidebar-bg) !important;
+    border-right: 1px solid var(--border) !important;
+}
+
+[data-testid="stSidebar"] * {
+    color: var(--text) !important;
+}
+
+/* ── Sidebar Buttons ── */
+[data-testid="stSidebar"] .stButton > button {
+    background-color: transparent !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
+    text-align: left !important;
+}
+
+[data-testid="stSidebar"] .stButton > button:hover {
+    background-color: var(--accent-dark) !important;
+    border-color: var(--accent) !important;
+    color: white !important;
+}
+
+/* ── Main Buttons ── */
+.stButton > button {
+    background-color: var(--accent) !important;
+    color: #0a1a0c !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    padding: 10px 20px !important;
+    transition: all 0.2s ease !important;
+}
+
+.stButton > button:hover {
+    background-color: var(--accent-dark) !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3) !important;
+}
+
+/* ── Form Submit Buttons ── */
+[data-testid="stFormSubmitButton"] > button {
+    background-color: var(--accent) !important;
+    color: #0a1a0c !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+}
+
+[data-testid="stFormSubmitButton"] > button:hover {
+    background-color: var(--accent-dark) !important;
+    color: white !important;
+}
+
+/* ── Inputs ── */
+.stTextInput > div > div > input,
+.stTextArea > div > div > textarea,
+.stSelectbox > div > div {
+    background-color: var(--card-bg) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+    font-family: var(--font) !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stTextArea > div > div > textarea:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 2px rgba(76,175,80,0.2) !important;
+}
+
+/* ── Labels ── */
+.stTextInput label,
+.stTextArea label,
+.stSelectbox label,
+.stSlider label,
+.stRadio label,
+.stCheckbox label {
+    color: var(--text-muted) !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    letter-spacing: 0.3px !important;
+}
+
+/* ── Tabs ── */
+.stTabs [data-baseweb="tab-list"] {
+    background-color: var(--card-bg) !important;
+    border-radius: 10px !important;
+    padding: 4px !important;
+    gap: 4px !important;
+}
+
+.stTabs [data-baseweb="tab"] {
+    background-color: transparent !important;
+    color: var(--text-muted) !important;
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+}
+
+.stTabs [aria-selected="true"] {
+    background-color: var(--accent) !important;
+    color: #0a1a0c !important;
+    font-weight: 600 !important;
+}
+
+/* ── Headings ── */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text) !important;
+    font-family: var(--font) !important;
+    font-weight: 600 !important;
+}
+
+h1 { font-size: 26px !important; }
+h2 { font-size: 20px !important; }
+h3 { font-size: 17px !important; }
+
+/* ── Divider ── */
+hr {
+    border-color: var(--border) !important;
+    margin: 16px 0 !important;
+}
+
+/* ── Info / Success / Error boxes ── */
+.stAlert {
+    border-radius: 8px !important;
+    font-family: var(--font) !important;
+}
+
+/* ── Expander ── */
+.streamlit-expanderHeader {
+    background-color: var(--card-bg) !important;
+    color: var(--text) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: 8px !important;
+}
+
+/* ── Slider ── */
+.stSlider > div > div > div > div {
+    background-color: var(--accent) !important;
+}
+
+/* ── Radio ── */
+.stRadio > div {
+    gap: 10px !important;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--accent-dark); }
+
+/* ── Caption / small text ── */
+.stCaption, small {
+    color: var(--text-muted) !important;
+    font-size: 12px !important;
+}
+
+/* ── Spinner ── */
+.stSpinner > div {
+    border-top-color: var(--accent) !important;
+}
