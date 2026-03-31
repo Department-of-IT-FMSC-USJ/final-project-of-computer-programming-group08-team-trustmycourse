@@ -64,19 +64,26 @@ def show_auth_page():
  
     /* Hide Streamlit chrome */
     #MainMenu, footer, header { visibility: hidden; }
-    .block-container { padding: 0 !important; max-width: 100% !important; }
+    .block-container { padding: 0 !important; max-width: 100% !important; min-height: 100vh; }
  
-    /* Full-screen wrapper */
-    .auth-wrapper {
-        display: flex;
+    /* ── Full-screen two-column wrapper ── */
+    [data-testid="stHorizontalBlock"] {
+        gap: 0 !important;
         min-height: 100vh;
         font-family: 'Poppins', sans-serif;
         background: #f4f6fb;
+    }            
+    
+    div[data-testid="column"]:first-child {
+        background: #1a2a6c !important;
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh;
+        padding: 0 !important;
     }
- 
     /* ── LEFT PANEL — image / brand ── */
     .auth-left {
-        flex: 1.1;
+        flex: 0.5;
         background: linear-gradient(135deg, #1a2a6c 0%, #2d4a9e 60%, #3a5bbf 100%);
         position: relative;
         overflow: hidden;
@@ -277,8 +284,9 @@ def show_auth_page():
     """, unsafe_allow_html=True)
  
     # ── Left panel (pure HTML — decorative) ───────────────────────────────────
+    
     # ── Right panel rendered via Streamlit columns ─────────────────────────────
-    col_l, col_r = st.columns([1.1, 1])
+    col_l, col_r = st.columns([0.7, 1])
  
     with col_l:
         st.markdown("""
@@ -327,7 +335,7 @@ def show_auth_page():
  
             st.markdown("""
             <div class="auth-signup-nudge">
-                Don't have an account? <a href="#">Sign up</a>
+                Don't have an account? <a href="tab2">Sign up</a>
             </div>
             """, unsafe_allow_html=True)
  
@@ -368,10 +376,21 @@ def show_auth_page():
 
 # ─── Page: Home / Search ──────────────────────────────────────────────────────
 def show_home_page():
+    col1, col2 = st.columns([3, 1])
+    
+
+    with col1:
+        if st.button("Logout"):
+            st.session_state.clear()
+            st.success("Logged out successfully!")
+           
+            go_to("home")
+    
     st.markdown(f"""
+      
         <div style='margin-bottom:8px;'>
-            <h2 style='color:#e8f5e9; margin:0; font-size:22px;'>Course Verification</h2>
-            <p style='color:#a5c8a8; font-size:13px; margin:4px 0 0 0;'>
+            <p style=' font-size: 38px;font-weight: 800;color: #4caf50;  letter-spacing: -1px; text-align:center;margin-bottom: 4px;'>Course <span style='color: #1a2a6c;'>Verification</span></p>
+            <p style='color:#a5c8a8; font-size:15px; margin:4px 0 0 0;text-align:center;'>
                 Welcome back, {st.session_state.user['username']}
             </p>
         </div>
@@ -590,25 +609,16 @@ def show_reviews_section(course_id):
             cert_val = "Yes" if r.get('certificate_recognized') else "No"
             bfr_val  = "Yes" if r.get('beginner_friendly') else "No"
             st.markdown(f"""
-                <div style='background:#132215; border:1px solid #1e3a20;
+                <div style=' border:1px solid #1e3a20;
                             border-radius:10px; padding:16px 20px; margin:8px 0;'>
                     <div style='display:flex; justify-content:space-between; margin-bottom:10px;'>
                         <span style='color:#e8f5e9; font-size:14px; font-weight:600;'>{r['username']}</span>
                         {scam_tag}
-                    </div>
-                    <div style='display:flex; gap:20px; margin-bottom:10px; flex-wrap:wrap;'>
-                        <span style='color:#a5c8a8; font-size:12px;'>Overall: <b style="color:#fdd835">{"★" * r['rating']}{"☆" * (5 - r['rating'])}</b></span>
-                        <span style='color:#a5c8a8; font-size:12px;'>Lecturers: <b style="color:#fdd835">{"★" * r.get('lecturer_quality', 0)}{"☆" * (5 - r.get('lecturer_quality', 0))}</b></span>
-                        <span style='color:#a5c8a8; font-size:12px;'>Content: <b style="color:#fdd835">{"★" * r.get('content_quality', 0)}{"☆" * (5 - r.get('content_quality', 0))}</b></span>
-                        <span style='color:#a5c8a8; font-size:12px;'>Certificate Recognized: <b style="color:#e8f5e9">{cert_val}</b></span>
-                        <span style='color:#a5c8a8; font-size:12px;'>Beginner Friendly: <b style="color:#e8f5e9">{bfr_val}</b></span>
-                    </div>
-                    <div style='color:#e8f5e9; font-size:13px; line-height:1.6;'>{r['comment']}</div>
-                </div>
+                    
             """, unsafe_allow_html=True)
     else:
         st.markdown("""
-            <div style='background:#132215; border:1px solid #1e3a20; border-radius:8px;
+            <div style=' border:1px solid #1e3a20; border-radius:8px;
                         padding:14px 16px; color:#a5c8a8; font-size:13px;'>
                 No reviews yet. Be the first to share your experience.
             </div>
@@ -616,37 +626,6 @@ def show_reviews_section(course_id):
 
     st.markdown("<div style='height:16px'></div>", unsafe_allow_html=True)
     section_header("Write a Review", "Help other students make a safe and informed decision")
-
-    # ── Star rating session state ──
-    for key, default in [("rating", 3), ("lecturer_quality", 3), ("content_quality", 3)]:
-        if f"review_{key}" not in st.session_state:
-            st.session_state[f"review_{key}"] = default
-
-    def star_row(label, key):
-        current = st.session_state[f"review_{key}"]
-        st.markdown(f"<p style='color:#a5c8a8; font-size:13px; margin:8px 0 4px 0; font-weight:500;'>{label}</p>", unsafe_allow_html=True)
-        cols = st.columns(5)
-        for i in range(1, 6):
-            with cols[i - 1]:
-                star_color = "#fdd835" if i <= current else "#1e3a20"
-                if st.button(
-                    "★",
-                    key=f"{key}_star_{i}",
-                    help=f"{i} star{'s' if i > 1 else ''}",
-                ):
-                    st.session_state[f"review_{key}"] = i
-                    st.rerun()
-                st.markdown(
-                    f"<style>div[data-testid='stButton'] button[title='{i} star{'s' if i > 1 else ''}'] "
-                    f"{{background:transparent !important; color:{star_color} !important; "
-                    f"font-size:28px !important; border:none !important; "
-                    f"padding:0 !important; min-height:0 !important;}}</style>",
-                    unsafe_allow_html=True
-                )
-
-    star_row("Overall Rating", "rating")
-    star_row("Lecturer Quality", "lecturer_quality")
-    star_row("Content Quality", "content_quality")
 
     st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
@@ -755,6 +734,8 @@ def show_discussion_board(course_id):
                             st.error("Failed to post reply.")
 
 
+   
+  
 # ─── Page: Certification ──────────────────────────────────────────────────────
 def show_certification_page():
     st.markdown("""
@@ -840,9 +821,9 @@ def show_sidebar():
         st.divider()
 
         st.markdown(f"""
-            <div style='background:#132215; border:1px solid #1e3a20;
+            <div style='background: #4caf50; border:1px solid #1e3a20;
                         border-radius:8px; padding:10px 14px; margin-bottom:16px;'>
-                <div style='color:#e8f5e9; font-size:13px; font-weight:600;'>
+                <div style=' font-size:16px; font-weight:600;'>
                     {st.session_state.user['username']}
                 </div>
                 <div style='color:#a5c8a8; font-size:11px; margin-top:2px; text-transform:capitalize;'>
